@@ -1,0 +1,50 @@
+---
+- name: Fetch IP address using shell command
+  ansible.builtin.shell:
+#  shell:
+    cmd: "hostname -I | awk '{print $1}'"
+  register: result
+  args:
+    executable: /bin/bash
+
+- name: Display the IP address
+  ansible.builtin.debug:
+    var: result.stdout
+    verbosity: 4
+
+- name: result of host ip adresses
+  debug:
+    msg: "{{ result.stdout }}"
+
+- name: Create certificate-exporter directory
+  ansible.builtin.file:
+    path: /etc/certificate-exporter
+    state: directory
+    mode: '0755'
+
+
+- name: Copy systemd service to nodes
+  ansible.builtin.template:
+    src: ../files/certificate-exporter.j2
+    dest: /etc/systemd/system/certificate-exporter.service
+
+
+- name: Copy binary file to nodes
+  ansible.builtin.copy:
+    src: ../files/certificate-exporter
+    dest: /etc/certificate-exporter/certificate-exporter
+    mode: '0755'
+
+- name: start certificate-exporter service
+  systemd:
+    state: started
+    daemon_reload: yes
+    name: certificate-exporter
+  become: true
+  become_user: root
+
+
+- name: autostart certificate-exporter after system startup
+  ansible.builtin.systemd_service:
+    name: certificate-exporter
+    enabled: true

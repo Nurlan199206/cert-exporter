@@ -1,0 +1,4 @@
+- hosts: kubernetes-standby
+  become: yes
+  roles:
+    - role: ../cert-exporter

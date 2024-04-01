@@ -1,0 +1,12 @@
+[kubernetes-standby]
+  master-01 ansible_host=10.160.2.202
+  master-02 ansible_host=10.160.2.203
+  master-03 ansible_host=10.160.2.204
+  node-01 ansible_host=10.160.2.205
+  node-02 ansible_host=10.160.2.206
+  node-03 ansible_host=10.160.2.207
+  node-04 ansible_host=10.160.2.208
+  node-05 ansible_host=10.160.2.209
+  node-06 ansible_host=10.160.2.210
+  node-07 ansible_host=10.160.2.211
+  node-08 ansible_host=10.160.2.212

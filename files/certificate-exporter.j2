@@ -1,0 +1,16 @@
+[Unit]
+Description=certificate-exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+#ExecStart=/etc/certificate-exporter/certificate-exporter
+ExecStart=/etc/certificate-exporter/certificate-exporter --debug -b {{result.stdout}}:9793 -d /etc/kubernetes/pki
+
+WorkingDirectory=/etc/certificate-exporter
+Restart=on-failure
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target
